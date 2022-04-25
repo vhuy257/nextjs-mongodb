@@ -22,7 +22,7 @@ const ListTask = () => {
         const newTask = { 
             _id: res.data.insertedId, 
             ...task 
-        }
+        }; inputRef.current.value = '';
         setListTasks([...listTasks, newTask]);
     }
 
@@ -34,6 +34,7 @@ const ListTask = () => {
 
     const deleteAllTask = async() => {
         await axios.get('/api/tasks/delete-all');
+        setListTasks([]);
     }
 
     return (
