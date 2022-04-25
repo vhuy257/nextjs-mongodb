@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import {reducer, initState} from '../../store/reducer';
+import reducer, { initialState } from '../../store/reducer';
 import {
-    setListTasks
+    getAllTasks
 } from '../../store/actions';
 
 const ListTask = () => {
     const [listTasks, setListTasks] = useState([]);
-    const [state, dispatch] = useReducer(reducer, initState);
+    const [tasks, dispatch] = useReducer(reducer, initialState);
 
     useEffect(async () => {
         const res = await axios.get('/api/tasks/get-all');
-        dispatch(setListTasks(res.data));
+        dispatch(getAllTasks(res.data));
     }, [])
 
     const deleteTask = async(taskId) => {
@@ -33,9 +33,8 @@ const ListTask = () => {
             </Head>
             <button onClick={deleteAllTask}>Delete all tasks</button>
             <h1>List Task</h1>
-            <ul>
-                {
-                    listTasks.map((item, key) => (
+            <ul> 
+                { tasks && tasks.map((item, key) => (
                         <li className={`item--${item._id}`} key={key}>{item.summary} <button onClick={() => {deleteTask(item._id)}}>Delete</button></li> 
                     ))
                 }

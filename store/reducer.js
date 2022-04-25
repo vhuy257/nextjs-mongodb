@@ -1,16 +1,17 @@
 import {
-    LOAD_ALL_TASK
+    LOAD_ALL_TASK,    
 } from './actions';
 
-export const initialState = [];
+export const tasks = [];
 
-export function reducer(state, action) {
-    switch  (action.type) {
+function reducer(state, action) {
+    switch (action.type) {
         case LOAD_ALL_TASK:
-            return {...action.payload};
+            return [...action.payload];
         default:
-            return null;
+            return state;
     }
 }
 
+export default reducer;
 
