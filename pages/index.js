@@ -1,10 +1,16 @@
-import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
-import ListTask from './tasks';
+import ListTask from '../components/tasks/ListTask';
+import AddTask from '../components/tasks/InsertTask';
+import Layout from '../components/layout';
 
 export default function Home({ isConnected }) {
   return (
-    <ListTask/>
+    <Layout>
+      <div className="task__wrapper">
+          <AddTask/>
+          <ListTask/>
+      </div>
+    </Layout>
   )
 }
 
