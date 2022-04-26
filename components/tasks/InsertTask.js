@@ -1,22 +1,26 @@
-import React, { useRef } from 'react';
-import axios from 'axios';
+import React, { useRef, useContext } from 'react';
+import {
+    CreateTaskService
+} from '../../services/TaskService';
+import {
+    createTask
+} from '../../store/actions';
+import { AppContext } from '../../pages';
 
 const InsertTask = () => {
-    const inputRef = useRef(null);
+    const inputRef = useRef(null);    
+    const { dispatch } = useContext(AppContext);
 
     const addTask = async() => {
         var task = {
             summary: inputRef.current.value,
             dateCreated: new Date(),
             isComplete: false,
-        };        
-        const res = await axios.post('/api/tasks/create', task);
+        };    
+        if (inputRef.current.value === "") { return false; }
+        const res = await CreateTaskService(task);
         inputRef.current.value = '';
-        const newTask = { 
-            _id: res.data.insertedId, 
-            ...task 
-        };
-        //setListTasks([...listTasks, newTask]);
+        dispatch(createTask(res));
     }
 
     return (

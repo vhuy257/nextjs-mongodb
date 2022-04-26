@@ -1,29 +1,33 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
-import axios from 'axios';
-import reducer, { initialState } from '../../store/reducer';
 import {
-    getAllTasks
+    deleteTaskAction,
+    deleteAllTaskAction,
+    updateTaskAction,
 } from '../../store/actions';
-
-const ListTask = () => {
-    const [listTasks, setListTasks] = useState([]);
-    const [tasks, dispatch] = useReducer(reducer, initialState);
-
-    useEffect(async () => {
-        const res = await axios.get('/api/tasks/get-all');
-        dispatch(getAllTasks(res.data));
-    }, [])
-
+import { AppContext } from '../../pages';
+import {
+    DeleteTaskService,
+    DeleteAllTaskService,
+    UpdateTaskStatusService 
+} from '../../services/TaskService';
+const ListTask = ({tasks}) => {
+    const { dispatch } = useContext(AppContext);
+    
     const deleteTask = async(taskId) => {
-        await axios.post(`/api/tasks/${taskId}`);
-        const filterList = listTasks.filter((item) => item._id !== taskId);
-        setListTasks(filterList);
+        await DeleteTaskService(taskId);
+        dispatch(deleteTaskAction(taskId));
     }
 
     const deleteAllTask = async() => {
-        await axios.get('/api/tasks/delete-all');
-        setListTasks([]);
+        await DeleteAllTaskService();
+        dispatch(deleteAllTaskAction());
+    }
+
+    const updateStatus = async(e, taskId) => {
+        const task = {_id: taskId, isComplete: e.target.checked}
+        await UpdateTaskStatusService(taskId, e.target.checked);
+        dispatch(updateTaskAction(task))
     }
 
     return (
@@ -33,9 +37,14 @@ const ListTask = () => {
             </Head>
             <button onClick={deleteAllTask}>Delete all tasks</button>
             <h1>List Task</h1>
-            <ul> 
-                { tasks && tasks.map((item, key) => (
-                        <li className={`item--${item._id}`} key={key}>{item.summary} <button onClick={() => {deleteTask(item._id)}}>Delete</button></li> 
+            <ul>
+                {   
+                    tasks.map((item, key) => (
+                        <li className={`item--${item._id}`} key={key}> 
+                            <input type="checkbox" checked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}/>
+                            {item.summary} 
+                            <button onClick={() => {deleteTask(item._id)}}>Delete</button>
+                        </li> 
                     ))
                 }
             </ul>

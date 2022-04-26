@@ -1,16 +1,38 @@
-import clientPromise from '../lib/mongodb'
+import { createContext, useReducer, useEffect } from 'react';
+import clientPromise from '../lib/mongodb';
 import ListTask from '../components/tasks/ListTask';
 import AddTask from '../components/tasks/InsertTask';
 import Layout from '../components/layout';
+import { LoadAllTasksService } from '../services/TaskService';
+import reducer, { initialState } from '../store/reducer';
+import {
+  getAllTasks
+} from '../store/actions';
+
+export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
+  const [{tasks}, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(async () => {
+    const res = await LoadAllTasksService();
+    dispatch(getAllTasks(res.data));
+  }, [])
+
   return (
-    <Layout>
-      <div className="task__wrapper">
-          <AddTask/>
-          <ListTask/>
-      </div>
-    </Layout>
+    <AppContext.Provider
+      value={{
+        tasks,
+        dispatch
+      }}
+    >
+      <Layout>
+        <div className="task__wrapper">
+            <AddTask/>
+            <ListTask tasks={tasks}/>
+        </div>
+      </Layout>
+    </AppContext.Provider>
   )
 }
 
