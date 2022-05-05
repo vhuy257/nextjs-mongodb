@@ -1,0 +1,12 @@
+.container {
+    max-width: 1366px;
+    padding: 0 1rem;
+    margin: 0 auto 6rem;
+    text-align: center;    
+}
+
+.default {
+    border: none;
+    background: none;
+    border-radius: 6px;    
+}

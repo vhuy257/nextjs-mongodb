@@ -2,13 +2,13 @@ import { createContext, useReducer, useEffect } from 'react';
 import clientPromise from '../lib/mongodb';
 import ListTask from '../components/tasks/ListTask';
 import AddTask from '../components/tasks/InsertTask';
-import Layout from '../components/layout';
+import Layout from '../components/layout/layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
 import {
   getAllTasks
 } from '../store/actions';
-
+import Head from 'next/head';
 export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
@@ -27,6 +27,9 @@ export default function Home({ isConnected }) {
       }}
     >
       <Layout>
+        <Head>
+            <title>List task management</title>
+        </Head>
         <div className="task__wrapper">
             <AddTask/>
             <ListTask tasks={tasks}/>
