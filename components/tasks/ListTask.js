@@ -32,8 +32,8 @@ const ListTask = ({tasks}) => {
                 {   
                     tasks.map((item, key) => (
                         <li className={`${styles.taskList} item--${item._id}`} key={key}> 
-                            <label className="form-control" id={`checkbox__${item._id}`} htmlFor={`checkbox__${item._id}`}>
-                                <input type="checkbox" name={`checkbox__${item._id}`} checked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}/>
+                            <input type="checkbox" name={`checkbox__${item._id}`} id={`checkbox__${item._id}`}  checked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}/>
+                            <label className="form-control" htmlFor={`checkbox__${item._id}`}>    
                                 {item.summary}
                             </label>
                             <button className={styles.btnDelete} onClick={() => {deleteTask(item._id)}}>Delete</button>
