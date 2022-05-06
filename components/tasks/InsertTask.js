@@ -1,13 +1,13 @@
 import React, { useRef, useContext } from 'react';
 import {
     CreateTaskService,
-    DeleteAllTaskService,
 } from '../../services/TaskService';
 import {
     createTask,
-    deleteAllTaskAction
 } from '../../store/actions';
 import { AppContext } from '../../pages';
+import { Button, Input, InputGroup, InputRightElement, Box  } from '@chakra-ui/react';
+import { IoIosAddCircleOutline } from "react-icons/io";
 import styles from './task.module.css';
 
 const InsertTask = () => {
@@ -26,17 +26,21 @@ const InsertTask = () => {
         dispatch(createTask(res));
     }
 
-    const deleteAllTask = async() => {
-        await DeleteAllTaskService();
-        dispatch(deleteAllTaskAction());
-    }
-
     return (
-        <div className="task_insert">
-            <input className="task_insert__input" ref={inputRef} placeholder="Input a new task" onKeyDown={(e) => e.key === 'Enter' && addTask()}/> 
-            <button onClick={addTask} className={styles.btnInsert}>Add</button>
-            <button onClick={deleteAllTask} className={styles.btnDeleteAll}>Delete all tasks</button>
-        </div>
+        <Box className="task_insert" mt={5}>
+            <InputGroup size='md'>
+                <Input 
+                    pr='4.5rem'
+                    ref={inputRef} 
+                    placeholder='Input a new task' 
+                    onKeyDown={(e) => e.key === 'Enter' && addTask()}/>
+                <InputRightElement width='5.5rem'>
+                    <Button h='1.75rem' size='md' 
+                    leftIcon={<IoIosAddCircleOutline />} onClick={addTask} 
+                    className={styles.btnInsert}>Add</Button>
+                </InputRightElement>
+            </InputGroup>
+        </Box>
     )
 }
 

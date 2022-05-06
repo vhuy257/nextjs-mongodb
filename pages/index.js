@@ -1,8 +1,8 @@
 import { createContext, useReducer, useEffect } from 'react';
 import clientPromise from '../lib/mongodb';
-import ListTask from '../components/tasks/ListTask';
-import AddTask from '../components/tasks/InsertTask';
-import Layout from '../components/layout/layout';
+import ListTask from '../components/Tasks/ListTask';
+import AddTask from '../components/Tasks/InsertTask';
+import Layout from '../components/Layout/Layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
 import {

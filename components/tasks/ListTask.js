@@ -1,46 +1,52 @@
 import React, { useContext } from 'react';
 import {
-    deleteTaskAction,
     deleteAllTaskAction,
-    updateTaskAction,
 } from '../../store/actions';
 import { AppContext } from '../../pages';
 import {
-    DeleteTaskService,
-    UpdateTaskStatusService 
+    DeleteAllTaskService,
 } from '../../services/TaskService';
 import styles from './task.module.css';
+import { motion } from "framer-motion";
+import AlertDialog from '../AlertDialog/AlertDialog';
+import { Button, Heading, useDisclosure } from '@chakra-ui/react'
+import { MdClear } from 'react-icons/md';
+import ItemTask from './ItemTask';
 
 const ListTask = ({tasks}) => {
     const { dispatch } = useContext(AppContext);
-    
-    const deleteTask = async(taskId) => {
-        await DeleteTaskService(taskId);
-        dispatch(deleteTaskAction(taskId));
-    }
+    const { onOpen, isOpen, onClose } = useDisclosure()    
 
-    const updateStatus = async(e, taskId) => {
-        const task = {_id: taskId, isComplete: e.target.checked}
-        await UpdateTaskStatusService(taskId, e.target.checked);
-        dispatch(updateTaskAction(task))
+    const deleteAllTask = async() => {
+        await DeleteAllTaskService();
+        dispatch(deleteAllTaskAction());
+        onClose();
     }
 
     return (
         <>
-            <h1>List Task</h1>
-            <ul>
-                {   
-                    tasks.map((item, key) => (
-                        <li className={`${styles.taskList} item--${item._id}`} key={key}> 
-                            <input type="checkbox" name={`checkbox__${item._id}`} id={`checkbox__${item._id}`}  checked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}/>
-                            <label className="form-control" htmlFor={`checkbox__${item._id}`}>    
-                                {item.summary}
-                            </label>
-                            <button className={styles.btnDelete} onClick={() => {deleteTask(item._id)}}>Delete</button>
-                        </li> 
-                    ))
-                }
-            </ul>
+            <Heading
+                m={[2, 3]}>
+                List Task
+            </Heading>
+            <Button 
+                m={[2, 3]}
+                leftIcon={<MdClear />}
+                onClick={onOpen} 
+                className={styles.btnDeleteAll}>
+                Delete all tasks
+            </Button>
+            <motion.ul>
+                {tasks.map((item, key) => (
+                    <ItemTask key={key} onOpen={onOpen} item={item}/>
+                ))}
+            </motion.ul>
+            <AlertDialog 
+                onClose={onClose} 
+                isOpen={isOpen} 
+                onAction={deleteAllTask} 
+                dialogBody='Are you sure you want to delete all items?' 
+                dialogHeader='Delete all tasks'/>
         </>
     )
 }
