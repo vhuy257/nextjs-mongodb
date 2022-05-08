@@ -26,18 +26,16 @@ const AlertDialogWrapper = ({isOpen, onClose, onAction, dialogHeader, dialogBody
                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                     {dialogHeader}
                 </AlertDialogHeader>
-
                 <AlertDialogBody>
                     {dialogBody}
                 </AlertDialogBody>
-
                 <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
-                    Cancel
-                </Button>
-                <Button colorScheme='red' onClick={onAction} ml={3}>
-                    Delete
-                </Button>
+                    <Button colorScheme='red' onClick={onAction}>
+                        Delete
+                    </Button>
+                    <Button ref={cancelRef} onClick={onClose} ml={3}>
+                        Cancel
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
             </AlertDialogOverlay>

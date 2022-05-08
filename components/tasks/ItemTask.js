@@ -4,6 +4,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import { motion } from "framer-motion";
 import { AppContext } from '../../pages';
 import styles from './task.module.css';
+import Moment from 'react-moment';
 import {
     updateTaskAction,
     deleteTaskAction,
@@ -39,22 +40,34 @@ const ItemTask = ({item}) => {
 
     return (
         <motion.li 
-            className={`${styles.taskItem} ${item.isComplete ? styles.isComplete : ''} item--${item._id}`}   
+            drag
+            whileDrag={{ scale: 0.8 }}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragMomentum={false}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
+            dragSnapToOrigin={true}
+            className={`${styles.taskItem} item--${item._id}`}   
             custom={item}
-            animate="visible"
-            variants={variants}
+            variants={variants} 
         >
-            <motion.div layout className="item__left">
+            <motion.div className="item__left">
                 <Checkbox size='lg' colorScheme='green' name={`checkbox__${item._id}`} id={`checkbox__${item._id}`}  
-                defaultChecked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}>
-                <Text className="form-control" htmlFor={`checkbox__${item._id}`}>    
-                    {item.summary}
-                </Text>
+                defaultIsChecked={false} isChecked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}>
+                    <Text align='left' ml="3" className={`${item.isComplete ? styles.isComplete : ''} form-control`} htmlFor={`checkbox__${item._id}`}>    
+                        {item.summary}
+                    </Text>
+                    <Text fontSize='xs' ml="3" color='gray' align='left' isTruncated>
+                        <Moment format="D MMM YYYY">
+                            {item.dateCreated}
+                        </Moment>
+                    </Text>
                 </Checkbox>
             </motion.div>
-            <IconButton icon={<RiDeleteBin5Line />} 
-            colorScheme="red" aria-label='Delete task item' 
-            className={styles.btnDelete} onClick={() => {deleteTask(item._id)}}/> 
+            <motion.div className="item__right">
+                <IconButton icon={<RiDeleteBin5Line />} 
+                colorScheme="red" aria-label='Delete task item' 
+                className={styles.btnDelete} onClick={() => {deleteTask(item._id)}}/> 
+            </motion.div>
         </motion.li>
     )
 };

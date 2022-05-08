@@ -4,10 +4,12 @@ import {
     DELETE_TASK,
     DELETE_ALL_TASK,
     UPDATE_TASK,
+    FILTER_LIST_TASK
 } from './actions';
 
 export const initialState = {
-    tasks: []
+    tasks: [],
+    condition: 'ALL'
 };
 
 function reducer(state, action) {
@@ -30,7 +32,12 @@ function reducer(state, action) {
         case UPDATE_TASK:
             const index = state.tasks.findIndex(item => item._id === action.payload._id);            
             state.tasks[index] = {...state.tasks[index], ...action.payload};
-            return {...state}
+            return {...state};
+        case FILTER_LIST_TASK: 
+            return {
+                ...state, 
+                condition: action.payload
+            }
         case DELETE_ALL_TASK:
             return {...state, tasks: []}
         default:

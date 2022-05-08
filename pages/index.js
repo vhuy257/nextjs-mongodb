@@ -12,7 +12,7 @@ import Head from 'next/head';
 export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
-  const [{tasks}, dispatch] = useReducer(reducer, initialState);
+  const [{tasks, condition}, dispatch] = useReducer(reducer, initialState);
 
   useEffect(async () => {
     const res = await LoadAllTasksService();
@@ -32,7 +32,7 @@ export default function Home({ isConnected }) {
         </Head>
         <div className="task__wrapper">
             <AddTask/>
-            <ListTask tasks={tasks}/>
+            <ListTask tasks={tasks} condition={condition}/>
         </div>
       </Layout>
     </AppContext.Provider>

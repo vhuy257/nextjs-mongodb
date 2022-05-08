@@ -3,6 +3,7 @@ export const ADD_TASK = "ADD_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 export const DELETE_ALL_TASK = "DELETE_ALL_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
+export const FILTER_LIST_TASK = "FILTER_LIST_TASK";
 
 export const getAllTasks = (data) => {
     return {
@@ -35,5 +36,12 @@ export const updateTaskAction = (task) => {
     return {
         type: UPDATE_TASK,
         payload: task
+    }
+}
+
+export const filterListTaskAction = (condition) => {
+    return {
+        type: FILTER_LIST_TASK,
+        payload: condition
     }
 }
