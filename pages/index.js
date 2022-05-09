@@ -1,7 +1,6 @@
 import { createContext, useReducer, useEffect } from 'react';
 import clientPromise from '../lib/mongodb';
 import ListTask from '../components/Tasks/ListTask';
-import AddTask from '../components/Tasks/InsertTask';
 import Layout from '../components/Layout/Layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
@@ -12,7 +11,7 @@ import Head from 'next/head';
 export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
-  const [{tasks, condition}, dispatch] = useReducer(reducer, initialState);
+  const [{tasks, condition, selectedItemId}, dispatch] = useReducer(reducer, initialState);
 
   useEffect(async () => {
     const res = await LoadAllTasksService();
@@ -31,8 +30,7 @@ export default function Home({ isConnected }) {
             <title>List task management</title>
         </Head>
         <div className="task__wrapper">
-            <AddTask/>
-            <ListTask tasks={tasks} condition={condition}/>
+            <ListTask tasks={tasks} condition={condition} selectedItemId={selectedItemId}/>
         </div>
       </Layout>
     </AppContext.Provider>

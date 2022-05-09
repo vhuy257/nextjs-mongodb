@@ -4,6 +4,7 @@ export const DELETE_TASK = "DELETE_TASK";
 export const DELETE_ALL_TASK = "DELETE_ALL_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const FILTER_LIST_TASK = "FILTER_LIST_TASK";
+export const SELECTED_ITEM = "SELECTED_ITEM";
 
 export const getAllTasks = (data) => {
     return {
@@ -43,5 +44,12 @@ export const filterListTaskAction = (condition) => {
     return {
         type: FILTER_LIST_TASK,
         payload: condition
+    }
+}
+
+export const setTaskIdAction = (taskId) => {
+    return {
+        type: SELECTED_ITEM,
+        payload: taskId
     }
 }
