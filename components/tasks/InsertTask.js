@@ -61,34 +61,8 @@ const InsertTask = () => {
                     </InputRightElement>
                 </InputGroup>
             </Box>
-            <Button
-                colorScheme='pink'
-                onClick={() => {filterList('ALL')}}
-            >
-                All Tasks
-            </Button>
-            <Button
-                ml="3"
-                colorScheme='blue'
-                onClick={() => {filterList(false)}}
-            >
-                UnCompleted
-            </Button>
-            <Button
-                ml="3"
-                colorScheme='green'
-                onClick={() => {filterList(true)}}
-            >
-                Completed
-            </Button>
             <Button 
-                m={[2, 3]}
-                leftIcon={<MdClear />}
-                onClick={onOpen} 
-                className={styles.btnDeleteAll}>
-                Delete all tasks
-            </Button>
-            <Button 
+                mt="3"
                 colorScheme={'yellow'}
                 onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MdOutlineDarkMode/> : <MdLightbulbOutline/>} Toggle {colorMode === 'light' ? 'Dark ' : 'Light '}

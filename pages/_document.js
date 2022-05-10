@@ -5,10 +5,10 @@ const config = {
     initialColorMode: 'light',
     useSystemColorMode: false, 
 }
-
+import { resetServerContext } from 'react-beautiful-dnd';
 const theme = extendTheme({ config })
 
-export default class Document extends NextDocument {
+class Document extends NextDocument {
   render() {
     return (
       <Html lang='en'>
@@ -24,3 +24,10 @@ export default class Document extends NextDocument {
     )
   }
 }
+
+Document.getInitialProps = async (ctx) => {
+  resetServerContext()
+  return NextDocument.getInitialProps(ctx);
+}
+
+export default Document;

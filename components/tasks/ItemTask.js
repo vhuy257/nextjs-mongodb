@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Checkbox, IconButton, Text, ListItem, Box } from '@chakra-ui/react'
-import { RiDeleteBin5Line } from 'react-icons/ri';
+import { motion } from 'framer-motion';
 import { AppContext } from '../../pages';
 import styles from './task.module.css';
 import Moment from 'react-moment';
@@ -26,34 +26,24 @@ const ItemTask = ({item, onOpen}) => {
         dispatch(setTaskIdAction(taskId))
     }
 
-    return (
-        <>
-            <ListItem
-                boxShadow='xl'
-                p={[2,3]}
-                borderRadius={5}
-                className={`${styles.taskItem} item--${item._id}`}   
-            >
-                <Box className="item__left">
-                    <Checkbox size='lg' colorScheme='green' name={`checkbox__${item._id}`} id={`checkbox__${item._id}`}  
-                    defaultIsChecked={false} isChecked={item.isComplete} onChange={(e) => {updateStatus(e, item._id)}}>
-                        <Text align='left' ml="3" className={`${item.isComplete ? styles.isComplete : ''} form-control`} htmlFor={`checkbox__${item._id}`}>    
-                            {item.summary}
-                        </Text>
-                        <Text fontSize='xs' ml="3" color='gray' align='left' isTruncated>
-                            <Moment format="D MMM YYYY">
-                                {item.dateCreated}
-                            </Moment>
-                        </Text>
-                    </Checkbox>
-                </Box>
-                <Box className="item__right">
-                    <IconButton icon={<RiDeleteBin5Line />} 
-                    colorScheme="red" aria-label='Delete task item' 
-                    className={styles.btnDelete} onClick={(e) => {showModal(e, item._id)}}/> 
-                </Box>
-            </ListItem>
-        </>
+    return ( 
+        <ListItem
+            boxShadow='base'
+            bg="white"
+            p={[2,3]}
+            borderRadius={5}
+            className={`${styles.taskItem} item--${item._id}`}>
+            <Box className="item__left">
+                    <Text fontSize='sm' color='black' align='left' ml="3" htmlFor={`checkbox__${item._id}`}>    
+                        {item.summary}
+                    </Text>
+                    <Text fontSize='xs' ml="3" color='gray' align='left' isTruncated>
+                        <Moment format="D MMM YYYY">
+                            {item.dateCreated}
+                        </Moment>
+                    </Text>
+            </Box>
+        </ListItem>
     )
 };
 
