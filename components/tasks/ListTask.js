@@ -46,23 +46,6 @@ const ListTask = ({tasks, condition, selectedItemId}) => {
     return (
         <>
             <List>
-                {condition === 'ALL' && tasks.map((item, key) => (
-                    <Draggable key={item._id} draggableId={item._id} index={key}>
-                        {(provided, snapshot) => (
-                            <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                                )}
-                            >
-                                <ItemTask key={key} onOpen={onOpen} item={item}/>    
-                            </div>
-                        )}
-                    </Draggable>
-                ))}
                 {tasks.map((item, key) => item.isComplete === condition && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
