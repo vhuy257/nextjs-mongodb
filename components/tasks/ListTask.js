@@ -24,7 +24,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     ...draggableStyle
 });
 
-const ListTask = ({tasks, condition, selectedItemId}) => {
+const ListTask = ({tasks, conditionFilter, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
     const { dispatch } = useContext(AppContext);
 
@@ -46,7 +46,7 @@ const ListTask = ({tasks, condition, selectedItemId}) => {
     return (
         <>
             <List>
-                {tasks.map((item, key) => item.isComplete === condition && (
+                {tasks.map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
                             <div

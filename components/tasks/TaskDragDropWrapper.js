@@ -51,7 +51,8 @@ const TaskDragDrop = ({tasks, condition, selectedItemId}) => {
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
                                 <Box bg="gray.100" borderRadius={5} padding="10" flex='1'>
-                                    <ListTask  tasks={tasks} condition={condition} selectedItemId={selectedItemId} />
+                                    <Icon color="black" as={BsPatchCheck} mr="3" /> <Text color="black"> Process </Text>
+                                    <ListTask  tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
                                 </Box>
                                 {provided.placeholder}
                                 </div>
@@ -64,9 +65,10 @@ const TaskDragDrop = ({tasks, condition, selectedItemId}) => {
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
-                                <Square mt="0" mx="5" bg="green.100" borderRadius={5} padding="10" flex='1'>
-                                    <Icon color="black" as={BsPatchCheck} mr="3" /> <Text color="black"> Task done </Text>
-                                </Square>
+                                <Box mt="0" mx="5" bg="green.100" borderRadius={5} padding="10" flex='1'>
+                                    <Icon color="black" as={BsPatchCheck} mr="3" /> <Text color="black"> Done </Text>
+                                    <ListTask  tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
+                                </Box>
                                 {provided.placeholder}
                                 </div>
                         )}
