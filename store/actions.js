@@ -5,6 +5,7 @@ export const DELETE_ALL_TASK = "DELETE_ALL_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const FILTER_LIST_TASK = "FILTER_LIST_TASK";
 export const SELECTED_ITEM = "SELECTED_ITEM";
+export const REORDER_LIST = "REORDER_LIST";
 
 export const getAllTasks = (data) => {
     return {
@@ -51,5 +52,12 @@ export const setTaskIdAction = (taskId) => {
     return {
         type: SELECTED_ITEM,
         payload: taskId
+    }
+}
+
+export const redorderListAction = (sortObj) => {
+    return {
+        type: REORDER_LIST,
+        payload: sortObj
     }
 }

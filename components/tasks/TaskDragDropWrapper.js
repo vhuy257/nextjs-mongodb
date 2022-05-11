@@ -5,11 +5,13 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {
     updateTaskAction,
     setTaskIdAction,
-    deleteTaskAction
+    deleteTaskAction,
+    redorderListAction,
 } from '../../store/actions';
 import {
     UpdateTaskStatusService,
-    DeleteTaskService
+    DeleteTaskService,
+    UpdateSortOrderService
 } from '../../services/TaskService';
 import { AiOutlineFileDone } from 'react-icons/ai';
 import { BsTrash, BsCardList } from 'react-icons/bs';
@@ -46,7 +48,12 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         if (!result.destination) {
           return;
         }
-  
+        
+        if (result.source.droppableId === result.destination.droppableId) {
+            await UpdateSortOrderService()
+            dispatch(redorderListAction(result.destination.index, result.source.index));
+        }
+
         if(result.destination) {
             switch(result.destination.droppableId) {
                 case 'droppable-1':

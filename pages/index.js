@@ -13,6 +13,7 @@ export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
   const [{tasks, condition, selectedItemId}, dispatch] = useReducer(reducer, initialState);  
+  
   useEffect( async() => {
     const res = await LoadAllTasksService();
     dispatch(getAllTasks(res.data));

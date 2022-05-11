@@ -5,7 +5,8 @@ import {
     DELETE_ALL_TASK,
     UPDATE_TASK,
     FILTER_LIST_TASK,
-    SELECTED_ITEM
+    SELECTED_ITEM,
+    REORDER_LIST
 } from './actions';
 
 export const initialState = {
@@ -44,6 +45,14 @@ function reducer(state, action) {
             return {
                 ...state, 
                 condition: action.payload
+            }
+        case REORDER_LIST:
+            const result = Array.from(state.tasks);
+            const [removed] = result.splice(action.payload.startIndex, 1);
+            result.splice(action.payload.endIndex, 0, removed);            
+            return {
+                ...state,
+                tasks: result
             }
         case DELETE_ALL_TASK:
             return {...state, tasks: []}

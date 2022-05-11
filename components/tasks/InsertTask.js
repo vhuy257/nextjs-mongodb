@@ -5,20 +5,20 @@ import {
 } from '../../services/TaskService';
 import {
     createTask,
-    filterListTaskAction,
     deleteAllTaskAction
 } from '../../store/actions';
-import { AppContext } from '../../pages';
 import { Button, Input, InputGroup, InputRightElement, Box, useDisclosure, useColorMode, Stack  } from '@chakra-ui/react';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineDarkMode, MdLightbulbOutline, MdClear } from 'react-icons/md';
 import AlertDialog from '../AlertDialog/AlertDialog';
+import { AppContext } from '../../pages';
 import styles from './task.module.css';
 
 const InsertTask = () => {
+    const { tasks,dispatch } = useContext(AppContext);
     const inputRef = useRef(null);    
     const { colorMode, toggleColorMode } = useColorMode()
-    const { dispatch } = useContext(AppContext);
+    
     const { onOpen, isOpen, onClose } = useDisclosure()    
 
     const deleteAllTask = async() => {
@@ -32,15 +32,12 @@ const InsertTask = () => {
             summary: inputRef.current.value,
             dateCreated: new Date(),
             isComplete: false,
+            sortIndex: [...tasks].length + 1,
         };    
         if (inputRef.current.value === "") { return false; }
         const res = await CreateTaskService(task);
         inputRef.current.value = '';
         dispatch(createTask(res));
-    }
-
-    const filterList = (condition) => {
-        dispatch(filterListTaskAction(condition));
     }
 
     return (
