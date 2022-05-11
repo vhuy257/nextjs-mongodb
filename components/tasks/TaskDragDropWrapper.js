@@ -43,6 +43,13 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         onClose();
     }
 
+    const reOrderList = async(result) => {
+        const destinationId = tasks.find((item) => {return item.sortIndex === result.destination.index});
+        const sortObj = { idStart: result.draggableId, startIndex: result.source.index, idEnd: destinationId._id,endIndex: result.destination.index };
+        await UpdateSortOrderService(sortObj);
+        dispatch(redorderListAction(result.source.index, result.destination.index));
+    }
+
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
@@ -50,11 +57,12 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         }
         
         if (result.source.droppableId === result.destination.droppableId) {
-            await UpdateSortOrderService()
-            dispatch(redorderListAction(result.destination.index, result.source.index));
+            reOrderList(result);
         }
+        
+        console.log(result);
 
-        if(result.destination) {
+        if(result.destination.droppableId !== result.source.droppableId) {
             switch(result.destination.droppableId) {
                 case 'droppable-1':
                     updateStatus(result.draggableId, true);

@@ -23,6 +23,6 @@ export const UpdateTaskStatusService = async(_id, isComplete) => {
     return await axios.put('/api/tasks/update', {_id, isComplete});
 }
 
-export const UpdateSortOrderService = async(_id, sortIndex) => {
-    return await axios.put('/api/tasks/update', {_id, sortIndex});
+export const UpdateSortOrderService = async(sortObj) => {
+    return await axios.put('/api/tasks/sort', {sortObj});
 }

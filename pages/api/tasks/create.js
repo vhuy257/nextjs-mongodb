@@ -1,5 +1,5 @@
-import  { connectToDatabase } from '../../../lib/mongodb';
-import {TaskCollectionName} from '../../../lib/constant';
+import { connectToDatabase } from '../../../lib/mongodb';
+import { TaskCollectionName } from '../../../lib/constant';
 
 export default async(req, res) => {
     const { db } = await connectToDatabase();

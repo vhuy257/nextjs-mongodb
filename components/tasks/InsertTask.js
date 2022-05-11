@@ -32,7 +32,7 @@ const InsertTask = () => {
             summary: inputRef.current.value,
             dateCreated: new Date(),
             isComplete: false,
-            sortIndex: [...tasks].length + 1,
+            sortIndex: [...tasks].length,
         };    
         if (inputRef.current.value === "") { return false; }
         const res = await CreateTaskService(task);

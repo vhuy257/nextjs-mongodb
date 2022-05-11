@@ -16,8 +16,7 @@ export default async(req, res) => {
                 delete setObject[propName];
             }
         }
-        
-        console.log(setObject);
+
         const updatedTask = await db.collection(TaskCollectionName).updateOne( {_id: ObjectId(req.body._id)}, { $set: setObject } );
         return res.end(JSON.stringify(updatedTask));
     } catch (error) {
