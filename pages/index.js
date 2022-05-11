@@ -8,25 +8,15 @@ import reducer, { initialState } from '../store/reducer';
 import {
   getAllTasks
 } from '../store/actions';
-import { DragDropContext } from "react-beautiful-dnd";
 import Head from 'next/head';
 export const AppContext = createContext(initialState);
 
 export default function Home({ isConnected }) {
-  const [{tasks, condition, selectedItemId}, dispatch] = useReducer(reducer, initialState);
-
+  const [{tasks, condition, selectedItemId}, dispatch] = useReducer(reducer, initialState);  
   useEffect( async() => {
     const res = await LoadAllTasksService();
     dispatch(getAllTasks(res.data));
   }, [])
-
-  const onDragEnd = (result) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-    console.log(result);
-  }
 
   return (
         <AppContext.Provider

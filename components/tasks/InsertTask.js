@@ -9,9 +9,9 @@ import {
     deleteAllTaskAction
 } from '../../store/actions';
 import { AppContext } from '../../pages';
-import { Button, Input, InputGroup, InputRightElement, Box, useDisclosure, useColorMode  } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputRightElement, Box, useDisclosure, useColorMode, Stack  } from '@chakra-ui/react';
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { MdClear, MdOutlineDarkMode, MdLightbulbOutline } from 'react-icons/md';
+import { MdOutlineDarkMode, MdLightbulbOutline, MdClear } from 'react-icons/md';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import styles from './task.module.css';
 
@@ -61,12 +61,23 @@ const InsertTask = () => {
                     </InputRightElement>
                 </InputGroup>
             </Box>
-            <Button 
-                mt="3"
-                colorScheme={'yellow'}
-                onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MdOutlineDarkMode/> : <MdLightbulbOutline/>} Toggle {colorMode === 'light' ? 'Dark ' : 'Light '}
-            </Button>
+            <Stack direction='row' spacing={4} align='right' mt="5" justify='flex-end'>
+                <Button 
+                    colorScheme={'red'}
+                    variant='outline'
+                    size='md'
+                    leftIcon={<MdClear/>}
+                    onClick={onOpen}>
+                    Delete All Item
+                </Button>
+                <Button 
+                    colorScheme={'yellow'}
+                    variant='filled'
+                    leftIcon={colorMode === 'light' ? <MdOutlineDarkMode/> : <MdLightbulbOutline/>}
+                    onClick={toggleColorMode}>
+                    Toggle {colorMode === 'light' ? 'Dark ' : 'Light '}
+                </Button>
+            </Stack>
             <AlertDialog 
                 onClose={onClose} 
                 isOpen={isOpen} 
