@@ -23,6 +23,9 @@ const getListStyle = isDraggingOver => ({
     width: '100%',
     //background: isDraggingOver ? "lightblue" : "lightgrey",
 });
+const getListStyleDelete = isDraggingOver => ({
+    transform: 'scale(1.2)',
+});
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
@@ -129,22 +132,23 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 </div>
                         )}
                         </Droppable>
-                        <Droppable droppableId="droppable-2">   
-                            {(provided, snapshot) => (
-                                <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                style={getListStyle(snapshot.isDraggingOver)}
-                                > 
-                                <Flex mt="0" padding="5" h="400px" flex='1' align={'center'} justify='center'>
-                                    <Circle bg="red.400" size={"80px"}>
-                                        <Icon color="white" w={6} h={6} as={VscTrash}/>
-                                    </Circle>
-                                </Flex>
-                                {provided.placeholder}
-                                </div>
-                        )}
-                        </Droppable>
+                        <Flex mt="0" padding="5" h="400px" flex='1' align={'center'} justify='center'>
+                            
+                            <Droppable droppableId="droppable-2">   
+                                {(provided, snapshot) => (
+                                    <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    style={getListStyleDelete(snapshot.isDraggingOver)}
+                                    > 
+                                        <Circle bg="red.400" size={"80px"}>
+                                            <Icon color="white" w={6} h={6} as={VscTrash}/>
+                                        </Circle>
+                                    {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </Flex>  
                     </Flex>
         </DragDropContext>
         <AlertDialog 
