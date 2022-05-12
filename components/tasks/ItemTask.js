@@ -9,7 +9,7 @@ const ItemTask = ({item}) => {
         <ListItem
             boxShadow='base'
             bg={`${item.isComplete ? 'green.100' : 'white'}`}
-            p={[2,3]}
+            p={[3,2]}
             borderRadius={5}
             className={`${styles.taskItem} item--${item._id}`}>
             <Box className="item__left">

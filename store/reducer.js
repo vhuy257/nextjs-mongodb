@@ -47,9 +47,13 @@ function reducer(state, action) {
                 condition: action.payload
             }
         case REORDER_LIST:
+            const result = Array.from(state.tasks);
+            const [removed] = result.splice(action.payload.startIndex, 1);
+            result.splice(action.payload.endIndex, 0, removed);
+            
             return {
                 ...state,
-                tasks: state.tasks.sort((a, b) => {return a.sortIndex - b.sortIndex})
+                tasks: result
             }
         case DELETE_ALL_TASK:
             return {...state, tasks: []}

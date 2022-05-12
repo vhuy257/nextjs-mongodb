@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Flex, Box, Icon, useDisclosure } from '@chakra-ui/react'
+import { Flex, Box, Icon, useDisclosure, Heading, Text } from '@chakra-ui/react'
 import ListTask from './ListTask';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {
@@ -14,7 +14,8 @@ import {
     UpdateSortOrderService
 } from '../../services/TaskService';
 import { AiOutlineFileDone } from 'react-icons/ai';
-import { BsTrash, BsCardList } from 'react-icons/bs';
+import { VscTrash } from 'react-icons/vsc';
+import { RiFileList3Line } from 'react-icons/ri';
 import { AppContext } from '../../pages';
 import AlertDialog from '../AlertDialog/AlertDialog';
 
@@ -44,10 +45,16 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
     }
 
     const reOrderList = async(result) => {
-        const destinationId = tasks.find((item) => {return item.sortIndex === result.destination.index});
-        const sortObj = { idStart: result.draggableId, startIndex: result.source.index, idEnd: destinationId._id,endIndex: result.destination.index };
-        await UpdateSortOrderService(sortObj);
-        dispatch(redorderListAction(result.source.index, result.destination.index));
+        if(result.source.index === result.destination.index) {
+            return
+        }
+        const list = Array.from(tasks);
+        const [removed] = list.splice(result.source.index, 1);
+        list.splice(result.destination.index, 0, removed);
+        list.map((item, key) => {item.sortIndex = key})
+        const sortObject = {arrayList: list}
+        await UpdateSortOrderService(sortObject);
+        dispatch(redorderListAction({startIndex: result.source.index, endIndex: result.destination.index}));
     }
 
     const onDragEnd = (result) => {
@@ -90,9 +97,13 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
-                                <Box bg="gray.100" padding="5">
-                                    <Icon w={8} h={8} color="gray.500" as={BsCardList} mb="5"/>
-                                    <ListTask  tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
+                                <Box bg="gray.100">
+                                    <Flex bg="gray.300" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
+                                        <Icon w={6} h={6} color="gray.500" as={RiFileList3Line} mr="2"/> <Text color="gray.600" alignItems={'center'}>Process</Text>
+                                    </Flex>
+                                    <Box p={4}>
+                                        <ListTask tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
+                                    </Box>
                                 </Box>
                                 {provided.placeholder}
                                 </div>
@@ -105,9 +116,13 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
-                                <Box mt="0" mx="5" bg="green.300" padding="5">
-                                    <Icon w={8} h={8} color="green" as={AiOutlineFileDone} mb="5"/>
-                                    <ListTask  tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
+                                <Box mt="0" mx="5" bg="green.300">
+                                    <Flex bg="green.500" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
+                                        <Icon w={7} h={7} color="green.200" as={AiOutlineFileDone} mr="2"/> <Text color="green.200" alignItems={'center'}>Done</Text>
+                                    </Flex>
+                                    <Box p={4}>
+                                        <ListTask  tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
+                                    </Box>
                                 </Box>
                                 {provided.placeholder}
                                 </div>
@@ -120,9 +135,9 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
-                                <Box mt="0" bg="red.100" padding="5">
-                                    <Icon color="red.400" w={8} h={8} as={BsTrash} mb="5" /> 
-                                </Box>
+                                <Flex mt="0" bg="red.600" padding="5" h="400px" flex='1' align={'center'} justify='center'>
+                                    <Icon color="red.200" w={6} h={6} as={VscTrash} mr="2" /> <Text color="red.200" fontSize={'sm'} alignItems={'center'}>Drop task here to delete</Text>
+                                </Flex>
                                 {provided.placeholder}
                                 </div>
                         )}

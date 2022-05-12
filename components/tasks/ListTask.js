@@ -13,7 +13,7 @@ const ListTask = ({tasks, conditionFilter,}) => {
     return (
         <>
             <List>
-                {tasks.sort((a, b) => {return a.sortIndex - b.sortIndex}).map((item, key) => item.isComplete === conditionFilter && (
+                {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex} ).map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
                             <div
