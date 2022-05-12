@@ -6,6 +6,7 @@ import { Draggable } from "react-beautiful-dnd";
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: "none",
+    // background: isDragging ? "lightgreen" : "grey",
     ...draggableStyle
 });
 
@@ -21,8 +22,8 @@ const ListTask = ({tasks, conditionFilter,}) => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
+                                    snapshot.isDragging,
+                                    provided.draggableProps.style
                                 )}
                             >
                                 <ItemTask key={key} item={item}/>

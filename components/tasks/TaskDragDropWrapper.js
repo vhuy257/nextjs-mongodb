@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Flex, Box, Icon, useDisclosure, Heading, Text } from '@chakra-ui/react'
+import { Flex, Box, Icon, useDisclosure, Circle, Text } from '@chakra-ui/react'
 import ListTask from './ListTask';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {
@@ -20,7 +20,8 @@ import { AppContext } from '../../pages';
 import AlertDialog from '../AlertDialog/AlertDialog';
 
 const getListStyle = isDraggingOver => ({
-    width: '100%'
+    width: '100%',
+    //background: isDraggingOver ? "lightblue" : "lightgrey",
 });
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
@@ -135,8 +136,10 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 > 
-                                <Flex mt="0" bg="red.600" padding="5" h="400px" flex='1' align={'center'} justify='center'>
-                                    <Icon color="red.200" w={6} h={6} as={VscTrash} mr="2" /> <Text color="red.200" fontSize={'sm'} alignItems={'center'}>Drop task here to delete</Text>
+                                <Flex mt="0" padding="5" h="400px" flex='1' align={'center'} justify='center'>
+                                    <Circle bg="red.400" size={"80px"}>
+                                        <Icon color="white" w={6} h={6} as={VscTrash}/>
+                                    </Circle>
                                 </Flex>
                                 {provided.placeholder}
                                 </div>
