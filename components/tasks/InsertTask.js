@@ -16,10 +16,9 @@ import styles from './task.module.css';
 
 const InsertTask = () => {
     const { tasks,dispatch } = useContext(AppContext);
-    const inputRef = useRef(null);    
-    const { colorMode, toggleColorMode } = useColorMode()
-    
+    const { colorMode, toggleColorMode } = useColorMode()    
     const { onOpen, isOpen, onClose } = useDisclosure()    
+    const inputRef = useRef(null);    
 
     const deleteAllTask = async() => {
         await DeleteAllTaskService();
@@ -32,6 +31,7 @@ const InsertTask = () => {
             summary: inputRef.current.value,
             dateCreated: new Date(),
             isComplete: false,
+            selected: false,
             sortIndex: [...tasks].length,
         };    
         if (inputRef.current.value === "") { return false; }

@@ -6,6 +6,8 @@ export const UPDATE_TASK = "UPDATE_TASK";
 export const FILTER_LIST_TASK = "FILTER_LIST_TASK";
 export const SELECTED_ITEM = "SELECTED_ITEM";
 export const REORDER_LIST = "REORDER_LIST";
+export const TOGGLE_TASK = "TOGGLE_TASK";
+export const TOGGLE_TOTAL_SELECTED_ITEM = "TOGGLE_TOTAL_SELECTED_ITEM";
 
 export const getAllTasks = (data) => {
     return {
@@ -59,5 +61,19 @@ export const redorderListAction = (sortObj) => {
     return {
         type: REORDER_LIST,
         payload: sortObj
+    }
+}
+
+export const selectMultiTaskAction = (taskId) => {
+    return {
+        type: TOGGLE_TASK,
+        payload: taskId
+    }
+}
+
+export const toggleTotalSelectedItemAction = ({taskId, show}) => {
+    return {
+        type: TOGGLE_TOTAL_SELECTED_ITEM,
+        payload: {taskId, show}
     }
 }

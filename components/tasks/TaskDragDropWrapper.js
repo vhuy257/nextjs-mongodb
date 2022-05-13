@@ -7,6 +7,7 @@ import {
     setTaskIdAction,
     deleteTaskAction,
     redorderListAction,
+    toggleTotalSelectedItemAction
 } from '../../store/actions';
 import {
     UpdateTaskStatusService,
@@ -23,8 +24,10 @@ const getListStyle = isDraggingOver => ({
     width: '100%',
     //background: isDraggingOver ? "lightblue" : "lightgrey",
 });
+
 const getListStyleDelete = isDraggingOver => ({
-    transform: 'scale(1.2)',
+    transition: '.3s ease-in-out',
+    //transform: isDraggingOver ? 'scale(1.2)' : "none",
 });
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
@@ -66,42 +69,59 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         if (!result.destination) {
           return;
         }
-        
+        console.log(result);
         if (result.source.droppableId === result.destination.droppableId) {
             reOrderList(result);
         }
         
-        console.log(result);
-
         if(result.destination.droppableId !== result.source.droppableId) {
-            switch(result.destination.droppableId) {
-                case 'droppable-1':
-                    updateStatus(result.draggableId, true);
-                    break;
-                case 'droppable-0':
-                    updateStatus(result.draggableId, false);
-                    break;
-                case 'droppable-2':
-                    showModal(result.draggableId);
-                    break;
-                default:
-                    break;
+            if(result.type === 'DEFAULT') {
+                switch(result.destination.droppableId) {
+                    case 'droppable-1':
+                        updateStatus(result.draggableId, true);
+                        break;
+                    case 'droppable-0':
+                        updateStatus(result.draggableId, false);
+                        break;
+                    case 'droppable-2':
+                        showModal(result.draggableId);
+                        break;
+                    default:
+                        break;
+                }
             }
+            
+            if (result.type === 'MULTI') {
+
+            }
+            
         }
+
+        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
+    }
+
+    const onDragStart = (result) => {
+        console.log('onDragStart', result);
+    }
+
+    const onDragUpdate = (result) => {
+        if (tasks.filter((item) => {return item.selected === true}).length > 1) {
+            result.type = 'MULTI';
+        } console.log('onDragUpdate', result);
+        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: true}));
     }
 
     return (
         <>
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart} onDragUpdate={onDragUpdate}>
                     <Flex mt="5" align="flex-start" justify="stretch">
                         <Droppable droppableId="droppable-0">   
                             {(provided, snapshot) => (
-                                <div
+                                <>
+                                <Box 
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                style={getListStyle(snapshot.isDraggingOver)}
-                                > 
-                                <Box bg="gray.100">
+                                bg="gray.100" w="100%" flex='1'>
                                     <Flex bg="gray.300" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
                                         <Icon w={6} h={6} color="gray.500" as={RiFileList3Line} mr="2"/> <Text color="gray.600" alignItems={'center'}>Process</Text>
                                     </Flex>
@@ -109,43 +129,43 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                         <ListTask tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
                                     </Box>
                                 </Box>
-                                {provided.placeholder}
-                                </div>
+                                <Box display="none">{provided.placeholder}</Box>
+                                </>
                         )}
                         </Droppable>
                         <Droppable droppableId="droppable-1">   
                             {(provided, snapshot) => (
-                                <div
+                                <Box 
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                                 style={getListStyle(snapshot.isDraggingOver)}
-                                > 
-                                <Box mt="0" mx="5" bg="green.300">
+                                mt="0" mx="5" w="100%" bg="green.300" flex='1'>
                                     <Flex bg="green.500" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
                                         <Icon w={7} h={7} color="green.200" as={AiOutlineFileDone} mr="2"/> <Text color="green.200" alignItems={'center'}>Done</Text>
                                     </Flex>
                                     <Box p={4}>
                                         <ListTask  tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
                                     </Box>
+                                    <Box display="none">{provided.placeholder}</Box>
                                 </Box>
-                                {provided.placeholder}
-                                </div>
                         )}
                         </Droppable>
-                        <Flex mt="0" padding="5" h="400px" flex='1' align={'center'} justify='center'>
-                            
+                        <Flex mt="0" padding="5" h="100px" align={'center'} justify='center'>
                             <Droppable droppableId="droppable-2">   
                                 {(provided, snapshot) => (
-                                    <div
+                                    <>
+                                    <Circle
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
+                                    position="relative"
                                     style={getListStyleDelete(snapshot.isDraggingOver)}
-                                    > 
-                                        <Circle bg="red.400" size={"80px"}>
-                                            <Icon color="white" w={6} h={6} as={VscTrash}/>
-                                        </Circle>
-                                    {provided.placeholder}
-                                    </div>
+                                    _before={{ content: '""', background: "transparent", border:"3px solid tomato", transform: `${snapshot.isDraggingOver ? 'scale(1.2)' : 'none'}`,zIndex: "-1", transition: ".2s ease-in-out",
+                                    borderRadius: "100%", position: "absolute", top: "0", left: "0", right: "0", bottom: "0"}}
+                                    bg="red.400" size={"80px"} align={'center'}>
+                                        <Icon color="white" w={6} h={6} as={VscTrash}/>
+                                    </Circle>
+                                    <Box display="none">{provided.placeholder}</Box>
+                                    </>
                                 )}
                             </Droppable>
                         </Flex>  

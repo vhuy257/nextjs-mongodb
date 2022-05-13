@@ -6,7 +6,9 @@ import {
     UPDATE_TASK,
     FILTER_LIST_TASK,
     SELECTED_ITEM,
-    REORDER_LIST
+    REORDER_LIST,
+    TOGGLE_TASK,
+    TOGGLE_TOTAL_SELECTED_ITEM
 } from './actions';
 
 export const initialState = {
@@ -54,6 +56,18 @@ function reducer(state, action) {
             return {
                 ...state,
                 tasks: result
+            }
+        case TOGGLE_TASK:
+            const indexSelected = state.tasks.findIndex(item => item._id === action.payload._id);            
+            state.tasks[indexSelected] = {...state.tasks[index], ...action.payload};
+            return {
+                ...state
+            }
+        case TOGGLE_TOTAL_SELECTED_ITEM:
+            const indexItem = state.tasks.findIndex(item => item._id === action.payload.taskId); 
+            state.tasks[indexItem].showTotal = action.payload.show;            
+            return {
+                ...state
             }
         case DELETE_ALL_TASK:
             return {...state, tasks: []}

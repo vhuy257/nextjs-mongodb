@@ -1,17 +1,17 @@
 import React from 'react';
-import { Text, ListItem, Box } from '@chakra-ui/react'
+import { Text, ListItem, Box, Badge } from '@chakra-ui/react'
 import styles from './task.module.css';
 import Moment from 'react-moment';
 
-const ItemTask = ({item}) => {
-
+const ItemTask = ({item, totalSelectedItem}) => {   
     return ( 
         <ListItem
             boxShadow='base'
-            bg={`${item.isComplete ? 'green.100' : 'white'}`}
+            bg={`${item.selected ? 'blue.200' : 'white'}`}
             p={[3,2]}
             borderRadius={5}
-            className={`${styles.taskItem} item--${item._id}`}>
+            tabIndex="0"
+            className={`${styles.taskItem} item--${item._id}`} position="relative">
             <Box className="item__left">
                     <Text fontSize='lg' color='black' align='left' ml="3" htmlFor={`checkbox__${item._id}`}>    
                         {item.summary}
@@ -19,9 +19,12 @@ const ItemTask = ({item}) => {
                     <Text fontSize='xs' ml="3" color='gray' align='left' isTruncated>
                         <Moment format="D MMM YYYY">
                             {item.dateCreated}
-                        </Moment>
+                        </Moment> 
                     </Text>
             </Box>
+            {item.showTotal && (
+                <Badge position={'absolute'} minW='20px' minH='20px' top={'-10px'} right={'-5px'} borderRadius="100%" bg='tomato'>{totalSelectedItem}</Badge>
+            )}
         </ListItem>
     )
 };
