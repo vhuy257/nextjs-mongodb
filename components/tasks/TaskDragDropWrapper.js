@@ -7,6 +7,7 @@ import {
     setTaskIdAction,
     deleteTaskAction,
     redorderListAction,
+    selectMultiTaskAction,
     toggleTotalSelectedItemAction
 } from '../../store/actions';
 import {
@@ -38,7 +39,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         const task = {_id: taskId, isComplete: checked}
         await UpdateTaskStatusService(taskId, checked);
         dispatch(updateTaskAction(task));
-        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
+        dispatch(toggleTotalSelectedItemAction({taskId: taskId, show: false}));
     }
     
     const showModal = (taskId) => {
@@ -105,7 +106,10 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                 }
             }            
         }
-
+        tasks.map((item) => {
+            item.selected = false;
+            dispatch(selectMultiTaskAction(item))
+        });
         dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
     }
 
