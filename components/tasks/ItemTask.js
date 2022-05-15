@@ -23,7 +23,7 @@ const ItemTask = ({item, totalSelectedItem}) => {
                     </Text>
             </Box>
             {item.showTotal && (
-                <Badge position={'absolute'} minW='20px' minH='20px' top={'-10px'} right={'-5px'} borderRadius="100%" bg='tomato'>{totalSelectedItem}</Badge>
+                totalSelectedItem > 1 && <Badge position={'absolute'} minW='20px' minH='20px' top={'-10px'} right={'-5px'} borderRadius="100%" bg='tomato'>{totalSelectedItem}</Badge>
             )}
         </ListItem>
     )

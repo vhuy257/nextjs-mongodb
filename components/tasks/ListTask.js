@@ -45,7 +45,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
         if(e.shiftKey || e.ctrlKey) {
             item.selected = !item.selected;
             dispatch(selectMultiTaskAction(item));
-        }
+        } 
     }
 
     return (

@@ -37,7 +37,8 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
     const updateStatus = async(taskId, checked) => {
         const task = {_id: taskId, isComplete: checked}
         await UpdateTaskStatusService(taskId, checked);
-        dispatch(updateTaskAction(task))
+        dispatch(updateTaskAction(task));
+        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
     }
     
     const showModal = (taskId) => {
@@ -64,12 +65,23 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         dispatch(redorderListAction({startIndex: result.source.index, endIndex: result.destination.index}));
     }
 
+    const multiTask = (condition) => {
+        const lengthTask = tasks.filter(item => {return item.selected}).length 
+        if(lengthTask > 1) {
+            tasks.map((item) => {
+                if(item.selected) {
+                    updateStatus(item._id, condition); 
+                }
+            }) 
+        }
+    }
+
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
           return;
         }
-        console.log(result);
+        
         if (result.source.droppableId === result.destination.droppableId) {
             reOrderList(result);
         }
@@ -78,10 +90,12 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
             if(result.type === 'DEFAULT') {
                 switch(result.destination.droppableId) {
                     case 'droppable-1':
-                        updateStatus(result.draggableId, true);
+                        updateStatus(result.draggableId, true); 
+                        multiTask(true);
                         break;
                     case 'droppable-0':
                         updateStatus(result.draggableId, false);
+                        multiTask(false);
                         break;
                     case 'droppable-2':
                         showModal(result.draggableId);
@@ -89,12 +103,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                     default:
                         break;
                 }
-            }
-            
-            if (result.type === 'MULTI') {
-
-            }
-            
+            }            
         }
 
         dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
@@ -105,9 +114,6 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
     }
 
     const onDragUpdate = (result) => {
-        if (tasks.filter((item) => {return item.selected === true}).length > 1) {
-            result.type = 'MULTI';
-        } console.log('onDragUpdate', result);
         dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: true}));
     }
 
