@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Flex, Box, Icon, useDisclosure, Circle, Text } from '@chakra-ui/react'
-import ListTask from './ListTask';
+import { Flex, Box, Icon, useDisclosure, Circle } from '@chakra-ui/react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {
     updateTaskAction,
@@ -15,11 +14,12 @@ import {
     DeleteTaskService,
     UpdateSortOrderService
 } from '../../services/TaskService';
-import { AiOutlineFileDone } from 'react-icons/ai';
 import { VscTrash } from 'react-icons/vsc';
+import { AiOutlineFileDone } from 'react-icons/ai';
 import { RiFileList3Line } from 'react-icons/ri';
 import { AppContext } from '../../pages';
 import AlertDialog from '../AlertDialog/AlertDialog';
+import DroppAbleZone from './Dropablezone';
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
@@ -30,6 +30,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         await UpdateTaskStatusService(taskId, checked);
         dispatch(updateTaskAction(task));
         dispatch(toggleTotalSelectedItemAction({taskId: taskId, show: false}));
+        console.log('zzz');
     }
     
     const showModal = (taskId) => {
@@ -57,7 +58,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
     }
 
     const multiTask = (condition) => {
-        const lengthTask = tasks.filter(item => {return item.selected}).length 
+        const lengthTask = tasks.filter(item => {return item.selected}).length; 
         if(lengthTask > 1) {
             tasks.map((item) => {
                 if(item.selected) {
@@ -68,102 +69,77 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
     }
 
     const onDragEnd = (result) => {
-        // dropped outside the list
-        if (!result.destination) {
+        if (!result.destination) { // dropped outside the list
           return;
         }
-        
         if (result.source.droppableId === result.destination.droppableId) {
             reOrderList(result);
         }
-        
         if(result.destination.droppableId !== result.source.droppableId) {
-            if(result.type === 'DEFAULT') {
-                switch(result.destination.droppableId) {
-                    case 'droppable-1':
-                        updateStatus(result.draggableId, true); 
-                        multiTask(true);
-                        break;
-                    case 'droppable-0':
-                        updateStatus(result.draggableId, false);
-                        multiTask(false);
-                        break;
-                    case 'droppable-2':
-                        showModal(result.draggableId);
-                        break;
-                    default:
-                        break;
-                }
+            switch(result.destination.droppableId) {
+                case 'droppable-1':
+                    updateStatus(result.draggableId, true); 
+                    multiTask(true);
+                    break;
+                case 'droppable-0':
+                    updateStatus(result.draggableId, false);
+                    multiTask(false);
+                    break;
+                case 'droppable-2':
+                    showModal(result.draggableId);
+                    break;
+                default:
+                    break;
             }            
         }
         tasks.map((item) => {
             item.selected = false;
             dispatch(selectMultiTaskAction(item))
-        });
-        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
-    }
-
-    const onDragUpdate = (result) => {
-        dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: true}));
+        }); dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
     }
 
     return (
         <>
-        <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
+        <DragDropContext onDragEnd={onDragEnd}>
                     <Flex mt="5" align="flex-start" justify="stretch">
-                        <Droppable droppableId="droppable-0">   
+                        <DroppAbleZone 
+                            tasks={tasks} 
+                            bg={'gray.200'} 
+                            conditionFilter={false} 
+                            bgTitle={'gray.400'} 
+                            iconColor={'gray.500'} 
+                            color={'gray.600'} 
+                            icon={AiOutlineFileDone} 
+                            title="To do" 
+                            selectedItemId={selectedItemId} 
+                            droppableId="droppable-0"/>
+                        <DroppAbleZone 
+                            tasks={tasks} 
+                            bg={'green.300'} 
+                            conditionFilter={true} 
+                            bgTitle={'green.500'} 
+                            color={'green.100'} 
+                            icon={RiFileList3Line} 
+                            title="Done" 
+                            selectedItemId={selectedItemId} 
+                            droppableId="droppable-1"/>
+                        <Droppable droppableId="droppable-2">   
                             {(provided, snapshot) => (
                                 <>
-                                <Box 
+                                <Circle
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                bg="gray.100" w="100%" flex='1'>
-                                    <Flex bg="gray.300" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
-                                        <Icon w={6} h={6} color="gray.500" as={RiFileList3Line} mr="2"/> <Text color="gray.600" alignItems={'center'}>Process</Text>
-                                    </Flex>
-                                    <Box p={4}>
-                                        <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
-                                    </Box>
-                                </Box>
+                                position="relative"
+                                transition="3s ease-in-out"
+                                _before={{ content: '""', background: "transparent", border:"3px solid tomato", transform: `${snapshot.isDraggingOver ? 'scale(1.2)' : 'none'}`,zIndex: "-1", transition: ".2s ease-in-out",
+                                borderRadius: "100%", position: "absolute", top: "0", left: "0", right: "0", bottom: "0"}}
+                                bg="red.400" size={"80px"} align={'center'}>
+                                    <Icon color="white" w={6} h={6} as={VscTrash}/>
+                                </Circle>
                                 <Box display="none">{provided.placeholder}</Box>
                                 </>
-                        )}
+                            )}
                         </Droppable>
-                        <Droppable droppableId="droppable-1">   
-                            {(provided, snapshot) => (
-                                <Box 
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                mt="0" mx="5" w="100%" bg="green.300" flex='1'>
-                                    <Flex bg="green.500" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
-                                        <Icon w={7} h={7} color="green.200" as={AiOutlineFileDone} mr="2"/> <Text color="green.200" alignItems={'center'}>Done</Text>
-                                    </Flex>
-                                    <Box p={4}>
-                                        <ListTask tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
-                                    </Box>
-                                    <Box display="none">{provided.placeholder}</Box>
-                                </Box>
-                        )}
-                        </Droppable>
-                        <Flex mt="0" padding="5" h="100px" align={'center'} justify='center'>
-                            <Droppable droppableId="droppable-2">   
-                                {(provided, snapshot) => (
-                                    <>
-                                    <Circle
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                    position="relative"
-                                    transition="3s ease-in-out"
-                                    _before={{ content: '""', background: "transparent", border:"3px solid tomato", transform: `${snapshot.isDraggingOver ? 'scale(1.2)' : 'none'}`,zIndex: "-1", transition: ".2s ease-in-out",
-                                    borderRadius: "100%", position: "absolute", top: "0", left: "0", right: "0", bottom: "0"}}
-                                    bg="red.400" size={"80px"} align={'center'}>
-                                        <Icon color="white" w={6} h={6} as={VscTrash}/>
-                                    </Circle>
-                                    <Box display="none">{provided.placeholder}</Box>
-                                    </>
-                                )}
-                            </Droppable>
-                        </Flex>  
                     </Flex>
         </DragDropContext>
         <AlertDialog 

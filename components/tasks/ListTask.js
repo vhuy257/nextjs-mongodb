@@ -31,7 +31,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
         e.preventDefault(); performAction(e);
     }   
 
-    const onClick = (e, item, provided) => {
+    const onClick = (e, item) => {
         if (e.defaultPrevented) {
             return;
         }
@@ -60,7 +60,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             onKeyDown={(event) => {onKeyDown(event, snapshot)}}
-                            onClick={(e) => {onClick(e, item, provided)}}
+                            onClick={(e) => {onClick(e, item)}}
                             style={getItemStyle(
                                 snapshot.isDragging,
                                 provided.draggableProps.style

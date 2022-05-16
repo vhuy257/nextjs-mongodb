@@ -7,7 +7,7 @@ const ItemTask = ({item, totalSelectedItem}) => {
     return ( 
         <ListItem
             boxShadow='base'
-            //bg={`${item.selected ? 'blue.200' : 'white'}`}
+            bg={`${item.selected ? '#f3f3f3' : 'white'}`}
             p={[3,2]}
             borderRadius={5}
             tabIndex="0"
