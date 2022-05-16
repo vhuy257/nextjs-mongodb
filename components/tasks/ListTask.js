@@ -10,7 +10,8 @@ import { AppContext } from '../../pages';
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: "none",
-    // background: isDragging ? "lightgreen" : "grey",
+    borderRadius: "5px",
+    background: isDragging ? "#f3f3f3" : "white",
     ...draggableStyle
 });
 

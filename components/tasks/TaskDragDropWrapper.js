@@ -21,16 +21,6 @@ import { RiFileList3Line } from 'react-icons/ri';
 import { AppContext } from '../../pages';
 import AlertDialog from '../AlertDialog/AlertDialog';
 
-const getListStyle = isDraggingOver => ({
-    width: '100%',
-    //background: isDraggingOver ? "lightblue" : "lightgrey",
-});
-
-const getListStyleDelete = isDraggingOver => ({
-    transition: '.3s ease-in-out',
-    //transform: isDraggingOver ? 'scale(1.2)' : "none",
-});
-
 const TaskDragDrop = ({tasks, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
     const { dispatch } = useContext(AppContext);
@@ -113,17 +103,13 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
     }
 
-    const onDragStart = (result) => {
-        console.log('onDragStart', result);
-    }
-
     const onDragUpdate = (result) => {
         dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: true}));
     }
 
     return (
         <>
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart} onDragUpdate={onDragUpdate}>
+        <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
                     <Flex mt="5" align="flex-start" justify="stretch">
                         <Droppable droppableId="droppable-0">   
                             {(provided, snapshot) => (
@@ -136,7 +122,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                         <Icon w={6} h={6} color="gray.500" as={RiFileList3Line} mr="2"/> <Text color="gray.600" alignItems={'center'}>Process</Text>
                                     </Flex>
                                     <Box p={4}>
-                                        <ListTask tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
+                                        <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={false} selectedItemId={selectedItemId} />
                                     </Box>
                                 </Box>
                                 <Box display="none">{provided.placeholder}</Box>
@@ -148,13 +134,12 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                 <Box 
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                style={getListStyle(snapshot.isDraggingOver)}
                                 mt="0" mx="5" w="100%" bg="green.300" flex='1'>
                                     <Flex bg="green.500" textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
                                         <Icon w={7} h={7} color="green.200" as={AiOutlineFileDone} mr="2"/> <Text color="green.200" alignItems={'center'}>Done</Text>
                                     </Flex>
                                     <Box p={4}>
-                                        <ListTask  tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
+                                        <ListTask tasks={tasks} conditionFilter={true} selectedItemId={selectedItemId} />
                                     </Box>
                                     <Box display="none">{provided.placeholder}</Box>
                                 </Box>
@@ -168,7 +153,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                     position="relative"
-                                    style={getListStyleDelete(snapshot.isDraggingOver)}
+                                    transition="3s ease-in-out"
                                     _before={{ content: '""', background: "transparent", border:"3px solid tomato", transform: `${snapshot.isDraggingOver ? 'scale(1.2)' : 'none'}`,zIndex: "-1", transition: ".2s ease-in-out",
                                     borderRadius: "100%", position: "absolute", top: "0", left: "0", right: "0", bottom: "0"}}
                                     bg="red.400" size={"80px"} align={'center'}>
