@@ -8,13 +8,15 @@ import {
     SELECTED_ITEM,
     REORDER_LIST,
     TOGGLE_TASK,
+    SET_SEARCH_TERM,
     TOGGLE_TOTAL_SELECTED_ITEM
 } from './actions';
 
 export const initialState = {
     tasks: [],
     condition: 'ALL',
-    selectedItemId: null
+    selectedItemId: null,
+    searchTerm: '',
 };
 
 function reducer(state, action) {
@@ -66,9 +68,9 @@ function reducer(state, action) {
         case TOGGLE_TOTAL_SELECTED_ITEM:
             const indexItem = state.tasks.findIndex(item => item._id === action.payload.taskId); 
             state.tasks[indexItem].showTotal = action.payload.show;            
-            return {
-                ...state
-            }
+            return {...state}
+        case SET_SEARCH_TERM:
+            return {...state, searchTerm: action.payload}
         case DELETE_ALL_TASK:
             return {...state, tasks: []}
         default:

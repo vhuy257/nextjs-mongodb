@@ -16,7 +16,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {    
-    const {dispatch} = useContext(AppContext);
+    const {searchTerm, dispatch} = useContext(AppContext);
 
     const onKeyDown = (e, snapshot) => {
         if (snapshot.isDragging) {
@@ -51,8 +51,27 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
 
     return (
         <>
-            <List>
-                {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex} ).map((item, key) => item.isComplete === conditionFilter && (
+            <List
+            maxHeight={'500px'}
+            overflowY="scroll"
+            pr={'10px'}
+            css={{
+                '&::-webkit-scrollbar': {
+                    width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    background: '#555',
+                    borderRadius: '24px',
+                },
+            }}
+            >
+                {tasks
+                .sort((a,b) => {return a.sortIndex - b.sortIndex} )
+                .filter(item => {return item.summary
+                .includes('A')}).map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
                             <div

@@ -6,7 +6,8 @@ import ListTask from './ListTask';
 
 const DroppAbleZone = ({droppableId, tasks, selectedItemId, conditionFilter, title, bgTitle, icon, bg, color, iconColor}) => {
     return (
-        <Droppable droppableId={droppableId}>   
+        <Droppable 
+        droppableId={droppableId}>   
             {(provided, snapshot) => (
                 <>
                 <Box 
@@ -17,7 +18,7 @@ const DroppAbleZone = ({droppableId, tasks, selectedItemId, conditionFilter, tit
                     <Flex bg={bgTitle} textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
                         <Icon w={6} h={6} color={iconColor} as={icon} mr="2"/> <Text color={color} alignItems={'center'}>{title}</Text>
                     </Flex>
-                    <Box p={4}>
+                    <Box p={tasks.length ? 4 : 0}>
                         <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={conditionFilter} selectedItemId={selectedItemId} />
                     </Box>
                 </Box>

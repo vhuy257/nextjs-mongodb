@@ -12,15 +12,15 @@ const ItemTask = ({item, totalSelectedItem}) => {
             borderRadius={5}
             tabIndex="0"
             className={`${styles.taskItem} item--${item._id}`} position="relative">
-            <Box className="item__left">
-                    <Text fontSize='lg' color='black' align='left' ml="3" htmlFor={`checkbox__${item._id}`}>    
+            <Box className="item__left" textAlign={'left'} pl="3">
+                    <Text fontSize='lg' color='black' align='left' htmlFor={`checkbox__${item._id}`}>    
                         {item.summary}
                     </Text>
-                    <Text fontSize='xs' ml="3" color='gray' align='left' isTruncated>
+                    <Badge variant='solid' colorScheme='green'>
                         <Moment format="D MMM YYYY">
-                            {item.dateCreated}
+                            {item.dateCreated} 
                         </Moment> 
-                    </Text>
+                    </Badge>
             </Box>
             {item.showTotal && (
                 totalSelectedItem > 1 && <Badge position={'absolute'} minW='20px' minH='20px' top={'-10px'} right={'-5px'} borderRadius="100%" bg='tomato'>{totalSelectedItem}</Badge>

@@ -8,6 +8,7 @@ export const SELECTED_ITEM = "SELECTED_ITEM";
 export const REORDER_LIST = "REORDER_LIST";
 export const TOGGLE_TASK = "TOGGLE_TASK";
 export const TOGGLE_TOTAL_SELECTED_ITEM = "TOGGLE_TOTAL_SELECTED_ITEM";
+export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
 
 export const getAllTasks = (data) => {
     return {
@@ -75,5 +76,12 @@ export const toggleTotalSelectedItemAction = ({taskId, show}) => {
     return {
         type: TOGGLE_TOTAL_SELECTED_ITEM,
         payload: {taskId, show}
+    }
+}
+
+export const setSearchTermAction = (searchTerm) => {
+    return {
+        type: SET_SEARCH_TERM,
+        payload: searchTerm
     }
 }
