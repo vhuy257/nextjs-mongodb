@@ -4,14 +4,17 @@ import { AppContext } from '../../pages';
 import {
     setSearchTermAction 
 } from '../../store/actions';
+import {
+    searchTaskService
+} from '../../services/TaskService';
 
 const SearchTask = () => {
     const ref = useRef(null);
     const { tasks, dispatch } = useContext(AppContext);
 
-    const searchAction = () => {
-        console.log(ref.current.value);
-        dispatch(setSearchTermAction(ref.current.value));
+    const searchAction = async() => {
+        const result = await searchTaskService(ref.current.value);
+        dispatch(setSearchTermAction(result));
     }
 
     return (

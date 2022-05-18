@@ -70,8 +70,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
             >
                 {tasks
                 .sort((a,b) => {return a.sortIndex - b.sortIndex} )
-                .filter(item => {return item.summary
-                .includes('A')}).map((item, key) => item.isComplete === conditionFilter && (
+                .map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
                             <div

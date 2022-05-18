@@ -26,3 +26,7 @@ export const UpdateTaskStatusService = async(_id, isComplete) => {
 export const UpdateSortOrderService = async(sortObj) => {
     return await axios.put('/api/tasks/sort', {sortObj});
 }
+
+export const searchTaskService = async(searchTerm) => {
+    return await axios.post('/api/tasks/search/', {searchTerm});
+}

@@ -70,7 +70,7 @@ function reducer(state, action) {
             state.tasks[indexItem].showTotal = action.payload.show;            
             return {...state}
         case SET_SEARCH_TERM:
-            return {...state, searchTerm: action.payload}
+            return {...state, tasks: action.payload.data}
         case DELETE_ALL_TASK:
             return {...state, tasks: []}
         default:

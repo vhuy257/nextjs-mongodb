@@ -79,9 +79,9 @@ export const toggleTotalSelectedItemAction = ({taskId, show}) => {
     }
 }
 
-export const setSearchTermAction = (searchTerm) => {
+export const setSearchTermAction = (data) => {
     return {
         type: SET_SEARCH_TERM,
-        payload: searchTerm
+        payload: data
     }
 }
