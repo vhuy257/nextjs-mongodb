@@ -20,7 +20,7 @@ import { RiFileList3Line } from 'react-icons/ri';
 import { AppContext } from '../../pages';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import DroppAbleZone from './Dropablezone';
-import SearchTask from './SearchTask';
+
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
@@ -100,7 +100,6 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
 
     return (
         <>
-        <SearchTask/>
         <DragDropContext onDragEnd={onDragEnd}>
                     <Flex mt="5" align="flex-start" justify="stretch">
                         <DroppAbleZone 

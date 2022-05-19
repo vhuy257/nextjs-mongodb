@@ -10,19 +10,19 @@ const DroppAbleZone = ({droppableId, tasks, selectedItemId, conditionFilter, tit
         droppableId={droppableId}>   
             {(provided, snapshot) => (
                 <>
-                <Box 
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                mr="10"
-                bg={bg} w="100%" flex='1'>
-                    <Flex bg={bgTitle} textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
-                        <Icon w={6} h={6} color={iconColor} as={icon} mr="2"/> <Text color={color} alignItems={'center'}>{title}</Text>
-                    </Flex>
-                    <Box p={tasks.length ? 4 : 0}>
-                        <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={conditionFilter} selectedItemId={selectedItemId} />
+                    <Box 
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    mr="10"
+                    bg={bg} w="100%" flex='1'>
+                        <Flex bg={bgTitle} textAlign={'left'} p={4} alignItems='center' alignSelf={'center'}>
+                            <Icon w={6} h={6} color={iconColor} as={icon} mr="2"/> <Text color={color} alignItems={'center'}>{title}</Text>
+                        </Flex>
+                        <Box p={tasks.length ? 4 : 0}>
+                            <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={conditionFilter} selectedItemId={selectedItemId} />
+                        </Box>
                     </Box>
-                </Box>
-                <Box display="none">{provided.placeholder}</Box>
+                    <Box display="none">{provided.placeholder}</Box>
                 </>
         )}
         </Droppable>

@@ -16,7 +16,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {    
-    const {searchTerm, dispatch} = useContext(AppContext);
+    const {dispatch} = useContext(AppContext);
 
     const onKeyDown = (e, snapshot) => {
         if (snapshot.isDragging) {
@@ -53,6 +53,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
         <>
             <List
             maxHeight={'500px'}
+            minHeight={'500px'}
             overflowY="scroll"
             pr={'10px'}
             css={{
@@ -83,7 +84,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
                                 snapshot.isDragging,
                                 provided.draggableProps.style
                             )}>
-                                <ItemTask key={key} totalSelectedItem={tasks.filter((item) => {return item.selected}).length} item={item}/>
+                                <ItemTask key={key} totalSelectedItem={totalSelectedItem} item={item}/>
                             </div>
                         )}
                     </Draggable>

@@ -8,7 +8,7 @@ import {
     SELECTED_ITEM,
     REORDER_LIST,
     TOGGLE_TASK,
-    SET_SEARCH_TERM,
+    SET_SEARCH_DATA,
     TOGGLE_TOTAL_SELECTED_ITEM
 } from './actions';
 
@@ -69,7 +69,7 @@ function reducer(state, action) {
             const indexItem = state.tasks.findIndex(item => item._id === action.payload.taskId); 
             state.tasks[indexItem].showTotal = action.payload.show;            
             return {...state}
-        case SET_SEARCH_TERM:
+        case SET_SEARCH_DATA:
             return {...state, tasks: action.payload.data}
         case DELETE_ALL_TASK:
             return {...state, tasks: []}

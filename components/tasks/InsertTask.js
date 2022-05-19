@@ -48,11 +48,15 @@ const InsertTask = () => {
                         pr='4.5rem'
                         ref={inputRef} 
                         variant="filled"
+                        bg="whiteAlpha.500"
                         borderRadius='0'
                         placeholder='Input a new task' 
                         onKeyDown={(e) => e.key === 'Enter' && addTask()}/>
                     <InputRightElement width='5.5rem'>
                         <Button h='1.75rem' size='md' 
+                        borderRadius={0}
+                        bg="whiteAlpha.800"
+                        color="blackAlpha.800"
                         leftIcon={<IoIosAddCircleOutline />} onClick={addTask} 
                         className={styles.btnInsert}>Add</Button>
                     </InputRightElement>

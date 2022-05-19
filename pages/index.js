@@ -2,6 +2,7 @@ import { createContext, useReducer, useEffect } from 'react';
 import clientPromise from '../lib/mongodb';
 import TaskDragDropWrapper from '../components/Tasks/TaskDragDropWrapper';
 import InsertTask from '../components/Tasks/InsertTask';
+import SearchTask from '../components/Tasks/SearchTask';
 import Layout from '../components/Layout/Layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
@@ -32,6 +33,7 @@ export default function Home({ isConnected }) {
             </Head>
             <div className="task__wrapper">
                 <InsertTask/>
+                <SearchTask/>
                 <TaskDragDropWrapper tasks={tasks} condition={condition} selectedItemId={selectedItemId}/>
             </div>
           </Layout>
