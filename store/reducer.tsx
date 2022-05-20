@@ -12,6 +12,15 @@ import {
     TOGGLE_TOTAL_SELECTED_ITEM
 } from './actions';
 
+interface Task {
+    _id: string,
+    summary: string,
+    dateCreated: string
+    isComplete: boolean,
+    sortIndex: number,
+    selected: boolean,
+}
+
 export const initialState = {
     tasks: [],
     condition: 'ALL',

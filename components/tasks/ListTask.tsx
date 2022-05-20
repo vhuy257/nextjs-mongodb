@@ -42,7 +42,7 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
         performAction(e, item);
     }
 
-    const performAction = (e, item) => {
+    const performAction = (e: any, item: any) => {
         if(e.shiftKey || e.ctrlKey) {
             item.selected = !item.selected;
             dispatch(selectMultiTaskAction(item));
@@ -68,10 +68,8 @@ const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {
                     borderRadius: '24px',
                 },
             }}
-            >
-                {tasks
-                .sort((a,b) => {return a.sortIndex - b.sortIndex} )
-                .map((item, key) => item.isComplete === conditionFilter && (
+            >   {console.log(tasks)}
+                {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex}).map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
                             <div

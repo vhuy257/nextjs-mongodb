@@ -16,8 +16,10 @@ const SearchTasks = () => {
     const {dispatch} = useContext(AppContext);
     
     const searchTask = async() => {
-        const data = await searchTaskService(inputRef.current.value);
-        dispatch(setSearchDataAction(data));
+        if (inputRef.current.value.length > 2) {
+            const data = await searchTaskService(inputRef.current.value);
+            dispatch(setSearchDataAction(data));
+        }
     }
 
     return (
