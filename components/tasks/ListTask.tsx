@@ -15,7 +15,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     ...draggableStyle
 });
 
-const ListTask = ({tasks, conditionFilter, totalSelectedItem}) => {    
+const ListTask = ({tasks, conditionFilter}) => {    
     const {dispatch} = useContext(AppContext);
 
     const onKeyDown = (e, snapshot) => {

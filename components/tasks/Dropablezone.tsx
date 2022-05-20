@@ -19,7 +19,7 @@ const DroppAbleZone = ({droppableId, tasks, selectedItemId, conditionFilter, tit
                             <Icon w={6} h={6} color={iconColor} as={icon} mr="2"/> <Text color={color} alignItems={'center'}>{title}</Text>
                         </Flex>
                         <Box p={tasks.length ? 4 : 0}>
-                            <ListTask snapshot={snapshot} tasks={tasks} conditionFilter={conditionFilter} selectedItemId={selectedItemId} />
+                            <ListTask tasks={tasks} conditionFilter={conditionFilter} />
                         </Box>
                     </Box>
                     <Box display="none">{provided.placeholder}</Box>
