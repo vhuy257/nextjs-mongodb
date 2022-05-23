@@ -13,18 +13,16 @@ import {
 
 const SearchTasks = () => {
     const inputRef = useRef(null);
-    const {dispatch} = useContext(AppContext);
+    const {dispatch}: any= useContext(AppContext);
     
     const searchTask = async() => {
-        if (inputRef.current.value.length > 2) {
-            const data = await searchTaskService(inputRef.current.value);
-            dispatch(setSearchDataAction(data));
-        }
+        const data = await searchTaskService(inputRef.current.value);
+        dispatch(setSearchDataAction(data));
     }
 
     return (
         <>
-        <Box mt={5} size='md' w="30%">
+        <Box mt={5} size="md" w="30%">
             <InputGroup>
                 <InputLeftElement
                 pointerEvents='none'

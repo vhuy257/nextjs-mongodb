@@ -15,7 +15,7 @@ import { AppContext } from '../../pages';
 import styles from './task.module.css';
 
 const InsertTask = () => {
-    const { tasks, dispatch } = useContext(AppContext);
+    const { tasks, dispatch }: any = useContext(AppContext);
     const { colorMode, toggleColorMode } = useColorMode()    
     const { onOpen, isOpen, onClose } = useDisclosure()    
     const inputRef = useRef(null);    

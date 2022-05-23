@@ -16,9 +16,9 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const ListTask = ({tasks, conditionFilter}) => {    
-    const {dispatch} = useContext(AppContext);
+    const {dispatch}: any = useContext(AppContext);
 
-    const onKeyDown = (e, snapshot) => {
+    const onKeyDown = (e, snapshot, item) => {
         if (snapshot.isDragging) {
             return;
         }
@@ -28,7 +28,7 @@ const ListTask = ({tasks, conditionFilter}) => {
         if (e.keyCode !== 13) {
             return;
         }  
-        e.preventDefault(); performAction(e);
+        e.preventDefault(); performAction(e, item);
     }   
 
     const onClick = (e, item) => {
@@ -68,7 +68,7 @@ const ListTask = ({tasks, conditionFilter}) => {
                     borderRadius: '24px',
                 },
             }}
-            >   {console.log(tasks)}
+            > 
                 {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex}).map((item, key) => item.isComplete === conditionFilter && (
                     <Draggable key={item._id} draggableId={item._id} index={key}>
                         {(provided, snapshot) => (
@@ -76,13 +76,13 @@ const ListTask = ({tasks, conditionFilter}) => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            onKeyDown={(event) => {onKeyDown(event, snapshot)}}
+                            onKeyDown={(event) => {onKeyDown(event, snapshot, item)}}
                             onClick={(e) => {onClick(e, item)}}
                             style={getItemStyle(
                                 snapshot.isDragging,
                                 provided.draggableProps.style
                             )}>
-                                <ItemTask key={key} totalSelectedItem={totalSelectedItem} item={item}/>
+                                <ItemTask key={key} item={item}/>
                             </div>
                         )}
                     </Draggable>

@@ -9,7 +9,6 @@ import {
     REORDER_LIST,
     TOGGLE_TASK,
     SET_SEARCH_DATA,
-    TOGGLE_TOTAL_SELECTED_ITEM
 } from './actions';
 
 interface Task {
@@ -21,14 +20,21 @@ interface Task {
     selected: boolean,
 }
 
-export const initialState = {
+interface State {
+    tasks: Task[],
+    condition: string,
+    selectedItemId: any,
+    searchTerm: string,
+}
+
+export const initialState: State = {
     tasks: [],
     condition: 'ALL',
     selectedItemId: null,
     searchTerm: '',
 };
 
-function reducer(state, action) {
+function reducer(state: State, action) {
     switch (action.type) {
         case LOAD_ALL_TASK:
             return {
@@ -74,10 +80,6 @@ function reducer(state, action) {
             return {
                 ...state
             }
-        case TOGGLE_TOTAL_SELECTED_ITEM:
-            const indexItem = state.tasks.findIndex(item => item._id === action.payload.taskId); 
-            state.tasks[indexItem].showTotal = action.payload.show;            
-            return {...state}
         case SET_SEARCH_DATA:
             return {...state, tasks: action.payload.data}
         case DELETE_ALL_TASK:

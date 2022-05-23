@@ -1,3 +1,5 @@
+import {Task} from '../model/task';
+
 export const LOAD_ALL_TASK = "LOAD_ALL_TASK";
 export const ADD_TASK = "ADD_TASK";
 export const DELETE_TASK = "DELETE_TASK";
@@ -7,10 +9,14 @@ export const FILTER_LIST_TASK = "FILTER_LIST_TASK";
 export const SELECTED_ITEM = "SELECTED_ITEM";
 export const REORDER_LIST = "REORDER_LIST";
 export const TOGGLE_TASK = "TOGGLE_TASK";
-export const TOGGLE_TOTAL_SELECTED_ITEM = "TOGGLE_TOTAL_SELECTED_ITEM";
 export const SET_SEARCH_DATA = "SET_SEARCH_DATA";
 
-export const getAllTasks = (data) => {
+export interface GetTodoAction {
+    type: typeof LOAD_ALL_TASK,
+    payload: Array<Task>
+}
+
+export const getAllTasks = (data):GetTodoAction => {
     return {
         type: LOAD_ALL_TASK,
         payload: data
@@ -72,16 +78,13 @@ export const selectMultiTaskAction = (taskId) => {
     }
 }
 
-export const toggleTotalSelectedItemAction = ({taskId, show}) => {
-    return {
-        type: TOGGLE_TOTAL_SELECTED_ITEM,
-        payload: {taskId, show}
-    }
-}
-
 export const setSearchDataAction = (data) => {
     return {
         type: SET_SEARCH_DATA,
         payload: data
     }
 }
+
+export type AppActions =
+  GetTodoAction;
+  

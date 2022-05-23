@@ -6,8 +6,7 @@ import {
     setTaskIdAction,
     deleteTaskAction,
     redorderListAction,
-    selectMultiTaskAction,
-    toggleTotalSelectedItemAction
+    selectMultiTaskAction
 } from '../../store/actions';
 import {
     UpdateTaskStatusService,
@@ -24,13 +23,12 @@ import DroppAbleZone from './Dropablezone';
 
 const TaskDragDrop = ({tasks, selectedItemId}) => {
     const { onOpen, isOpen, onClose } = useDisclosure();
-    const { dispatch } = useContext(AppContext);
+    const { dispatch }: any = useContext(AppContext);
     
     const updateStatus = async(taskId, checked) => {
         const task = {_id: taskId, isComplete: checked}
         await UpdateTaskStatusService(taskId, checked);
         dispatch(updateTaskAction(task));
-        dispatch(toggleTotalSelectedItemAction({taskId: taskId, show: false}));
     }
     
     const showModal = (taskId) => {
@@ -51,7 +49,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         const list = Array.from(tasks);
         const [removed] = list.splice(result.source.index, 1);
         list.splice(result.destination.index, 0, removed);
-        list.map((item, key) => {item.sortIndex = key})
+        list.map((item: any, key) => {item.sortIndex = key})
         const sortObject = {arrayList: list}
         await UpdateSortOrderService(sortObject);
         dispatch(redorderListAction({startIndex: result.source.index, endIndex: result.destination.index}));
@@ -95,7 +93,7 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
         tasks.map((item) => {
             item.selected = false;
             dispatch(selectMultiTaskAction(item))
-        }); dispatch(toggleTotalSelectedItemAction({taskId: result.draggableId, show: false}));
+        }); 
     }
 
     return (
@@ -111,7 +109,6 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                             color={'gray.600'} 
                             icon={AiOutlineFileDone} 
                             title="To do" 
-                            selectedItemId={selectedItemId} 
                             droppableId="droppable-0"/>
                         <DroppAbleZone 
                             tasks={tasks} 
@@ -121,7 +118,6 @@ const TaskDragDrop = ({tasks, selectedItemId}) => {
                             color={'green.100'} 
                             icon={RiFileList3Line} 
                             title="Done" 
-                            selectedItemId={selectedItemId} 
                             droppableId="droppable-1"/>
                         <Droppable droppableId="droppable-2">   
                             {(provided, snapshot) => (

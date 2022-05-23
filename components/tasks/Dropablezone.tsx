@@ -4,7 +4,7 @@ import { Flex, Box, Icon, Text } from '@chakra-ui/react';
 
 import ListTask from './ListTask';
 
-const DroppAbleZone = ({droppableId, tasks, selectedItemId, conditionFilter, title, bgTitle, icon, bg, color, iconColor}) => {
+const DroppAbleZone = ({droppableId, tasks, conditionFilter, title, bgTitle, icon, bg, color, iconColor} : any) => {
     return (
         <Droppable 
         droppableId={droppableId}>   
