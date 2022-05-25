@@ -7,6 +7,10 @@ import Layout from '../components/Layout/Layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
 import {
+  ApolloProvider
+} from '@apollo/client';
+import client from '../apollo-client';
+import {
   getAllTasks
 } from '../store/actions';
 import Head from 'next/head';
@@ -21,6 +25,7 @@ export default function Home({ isConnected }) {
   }, [])
 
   return (
+      <ApolloProvider client={client}>
         <AppContext.Provider
           value={{
             tasks,
@@ -38,6 +43,7 @@ export default function Home({ isConnected }) {
             </div>
           </Layout>
         </AppContext.Provider>
+      </ApolloProvider>
   )
 }
 
