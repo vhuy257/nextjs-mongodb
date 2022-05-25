@@ -9,7 +9,8 @@ import {
 } from '../../store/actions';
 import { Button, Input, InputGroup, InputRightElement, Box, useDisclosure, useColorMode, Stack  } from '@chakra-ui/react';
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { MdOutlineDarkMode, MdLightbulbOutline, MdClear } from 'react-icons/md';
+import { MdOutlineDarkMode, MdClear } from 'react-icons/md';
+import { BsSun } from 'react-icons/bs';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import { AppContext } from '../../pages';
 import styles from './task.module.css';
@@ -74,7 +75,7 @@ const InsertTask = () => {
                 <Button 
                     colorScheme={'yellow'}
                     variant='filled'
-                    leftIcon={colorMode === 'light' ? <MdOutlineDarkMode/> : <MdLightbulbOutline/>}
+                    leftIcon={colorMode === 'light' ? <MdOutlineDarkMode/> : <BsSun/>}
                     onClick={toggleColorMode}>
                     Toggle {colorMode === 'light' ? 'Dark ' : 'Light '}
                 </Button>

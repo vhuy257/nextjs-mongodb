@@ -50,45 +50,43 @@ const ListTask = ({tasks, conditionFilter}) => {
     }
 
     return (
-        <>
-            <List
-            maxHeight={'500px'}
-            minHeight={'500px'}
-            overflowY="scroll"
-            pr={'10px'}
-            css={{
-                '&::-webkit-scrollbar': {
-                    width: '4px',
-                },
-                '&::-webkit-scrollbar-track': {
-                    width: '6px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    background: '#555',
-                    borderRadius: '24px',
-                },
-            }}
-            > 
-                {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex}).map((item, key) => item.isComplete === conditionFilter && (
-                    <Draggable key={item._id} draggableId={item._id} index={key}>
-                        {(provided, snapshot) => (
-                            <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onKeyDown={(event) => {onKeyDown(event, snapshot, item)}}
-                            onClick={(e) => {onClick(e, item)}}
-                            style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                            )}>
-                                <ItemTask key={key} item={item}/>
-                            </div>
-                        )}
-                    </Draggable>
-                ))}
-            </List>
-        </>
+        <List
+        maxHeight={'500px'}
+        minHeight={'500px'}
+        overflowY="scroll"
+        pr={'10px'}
+        css={{
+            '&::-webkit-scrollbar': {
+                width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+                width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+                background: '#555',
+                borderRadius: '24px',
+            },
+        }}
+        > 
+            {tasks.sort((a,b) => {return a.sortIndex - b.sortIndex}).map((item, key) => item.isComplete === conditionFilter && (
+                <Draggable key={item._id} draggableId={item._id} index={key}>
+                    {(provided, snapshot) => (
+                        <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        onKeyDown={(event) => {onKeyDown(event, snapshot, item)}}
+                        onClick={(e) => {onClick(e, item)}}
+                        style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                        )}>
+                            <ItemTask key={key} item={item}/>
+                        </div>
+                    )}
+                </Draggable>
+            ))}
+        </List>
     )
 }
 

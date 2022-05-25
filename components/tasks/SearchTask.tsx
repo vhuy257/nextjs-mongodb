@@ -21,9 +21,8 @@ const SearchTasks = () => {
     }
 
     return (
-        <>
-        <Box mt={5} size="md" w="30%">
-            <InputGroup>
+        <Box mt={5} w="30%">
+            <InputGroup size={'md'}>
                 <InputLeftElement
                 pointerEvents='none'
                 children={<RiSearch2Line/>}/>
@@ -31,7 +30,6 @@ const SearchTasks = () => {
             </InputGroup>
             <Text align={'left'} mt='5'>Your search keywords: {inputRef.current && inputRef.current.value}</Text>
         </Box>
-        </>
     )
 }
 
