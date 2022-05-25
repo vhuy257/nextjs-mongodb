@@ -1,23 +1,25 @@
 import { gql, ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { connectToDatabase } from '../../lib/mongodb';
+import { TaskCollectionName } from '../../lib/constant';
+
+const { db } = await connectToDatabase();
 
 const typeDefs = gql`
-  type User {
+  type Task {
     id: ID,
     summary: String
   }
 
   type Query {
-    getUser: User
+    getTasks: Task
   }
 `;
 
 const resolvers = {
   Query: {
-    getUser: () => {
-      return {
-        id: "Foo",
-      };
+    getTasks: async() => {
+      return await db.collection(TaskCollectionName).find({}).limit(20).toArray();
     },
   },
 };
