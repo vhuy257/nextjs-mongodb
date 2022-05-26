@@ -7,7 +7,8 @@ import Layout from '../components/Layout/Layout';
 import { LoadAllTasksService } from '../services/TaskService';
 import reducer, { initialState } from '../store/reducer';
 import {
-  ApolloProvider
+  ApolloProvider,
+  gql
 } from '@apollo/client';
 import client from '../apollo-client';
 import {
@@ -16,7 +17,7 @@ import {
 import Head from 'next/head';
 export const AppContext = createContext(initialState);
 
-export default function Home({ isConnected }) {
+export default function Home({ isConnected, tasksList }) {
   const [{tasks, condition, selectedItemId}, dispatch] = useReducer(reducer, initialState);  
   
   useEffect( async() => {
@@ -34,7 +35,7 @@ export default function Home({ isConnected }) {
         >
           <Layout>
             <Head>
-                <title>List task management</title>
+                <title>List task management {isConnected}</title>
             </Head>
             <div className="task__wrapper">
                 <InsertTask/>
@@ -58,12 +59,21 @@ export async function getServerSideProps(context) {
     //
     // Then you can execute queries against your database like so:
     // db.find({}) or any of the MongoDB Node Driver commands
-
+    
+    const data = await client.query({
+      query: gql`
+        query getTasks {
+          _id
+          summary
+        }
+      `,
+    });
+    
     return {
-      props: { isConnected: true },
+      props: { isConnected: true, tasksList: data },
     }
   } catch (e) {
-    console.error(e)
+    console.log(e);
     return {
       props: { isConnected: false },
     }

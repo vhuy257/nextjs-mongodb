@@ -7,8 +7,8 @@ const typeDefs = gql`
   type Task {
     _id: ID,
     summary: String,
-    isComplete: boolean,
-    selected: boolean,
+    isComplete: Boolean,
+    selected: Boolean,
   }
 
   type Query {
@@ -17,20 +17,18 @@ const typeDefs = gql`
 `;
 
 const getListTask = async() => {
-    const { db } = await connectToDatabase();  
-    try {
-        const taskList = await db.collection(TaskCollectionName).find({}).limit(20).toArray();
-        return taskList;
-    } catch (error) {
-        errorres.end(error);
-    }
+  const { db } = await connectToDatabase();
+  try {
+      return await db.collection(TaskCollectionName).find({}).toArray(); 
+  } catch (error) {
+      return error;
+  }
 }
 
 const resolvers = {
   Query: {
     getTasks: async() => {
-      const data = await getListTask(); 
-      return data;
+      return await getListTask()
     },
   },
 };
