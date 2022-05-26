@@ -1,15 +1,12 @@
 import { 
     ApolloClient, 
-    HttpLink,
     InMemoryCache 
 } from "@apollo/client";
 
-const grapqlUri = `http://localhost:3000/api/graphql`;
+const grapqlUri = `https://countries.trevorblades.com`;
 
 const client = new ApolloClient({
-    link: new HttpLink({
-        uri: grapqlUri
-    }),
+    uri: grapqlUri,
     cache: new InMemoryCache(),
 });
 
